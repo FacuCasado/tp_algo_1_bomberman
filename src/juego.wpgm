@@ -1,14 +1,16 @@
 import wollok.game.*
+import bombita.*
 
-program BombitaRodriguez {
+program Bombita {
 
 	//CONFIG
-	game.title("BombitaRodriguez")
+	game.title("Bombita")
 	game.width(15)
 	game.height(10)
 	
 	//VISUALES
+	game.addVisualCharacter(new Jugador)
 	
 	//JUEGO
-
+	game.start()
 }
