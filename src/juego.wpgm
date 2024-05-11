@@ -1,5 +1,6 @@
 import wollok.game.*
 import bombita.*
+import otros.*
 
 program Bombita {
 
@@ -9,8 +10,11 @@ program Bombita {
 	game.height(10)
 	
 	//VISUALES
-	game.addVisualCharacter(new Jugador)
+	game.addVisualCharacter(new Jugador())
+	8.times{i => game.addVisual(new Caja())} //Probablmente se puede mejorar para que spawneen mejor distribuidas las cajas
 	
+		
 	//JUEGO
 	game.start()
 }
+
