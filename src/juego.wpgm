@@ -1,0 +1,14 @@
+import wollok.game.*
+
+program BombitaRodriguez {
+
+	//CONFIG
+	game.title("BombitaRodriguez")
+	game.width(15)
+	game.height(10)
+	
+	//VISUALES
+	
+	//JUEGO
+
+}
