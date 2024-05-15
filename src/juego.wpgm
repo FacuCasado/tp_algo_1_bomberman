@@ -6,12 +6,12 @@ program Bombita {
 
 	//CONFIG
 	game.title("Bombita")
-	game.width(15)
-	game.height(10)
+	game.width(26)
+	game.height(12)
 	
 	//VISUALES
 	game.addVisualCharacter(new Jugador())
-	8.times{i => game.addVisual(new Caja())} //Probablmente se puede mejorar para que spawneen mejor distribuidas las cajas
+	40.times{i => game.addVisual(new Caja())} //Probablmente se puede mejorar para que spawneen mejor distribuidas las cajas
 	
 		
 	//JUEGO
