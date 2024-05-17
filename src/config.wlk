@@ -4,8 +4,8 @@ import mejoras.*
 import otros.*
 import wollok.game.*
 
-
 const jugador1 = new Jugador()
+
 object unJugador{
 	method iniciar(){
 	config.configurarTeclas()
