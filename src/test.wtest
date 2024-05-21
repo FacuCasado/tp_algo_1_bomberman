@@ -1,0 +1,12 @@
+import config.*
+import bombita.*
+import otros.*
+import bombas.*
+
+
+test "testcollideDo" {
+
+	jugador1.soltarBomba(jugador1.position())
+	assert.equals(jugador1.cantBombas(), 0)
+
+}
