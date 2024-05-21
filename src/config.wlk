@@ -10,6 +10,7 @@ object iniciarJugador1 {
 	method iniciar(){
 	config.configurarTeclas()
 	game.addVisual(jugador1)
+	game.addVisual(caj2)
 	40.times{i => game.addVisual(new Caja())} //Probablmente se puede mejorar para que spawneen mejor distribuidas las cajas
 }
 }
