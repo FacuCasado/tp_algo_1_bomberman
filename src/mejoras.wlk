@@ -1,27 +1,42 @@
-class Velocidad{
-	var property nuevaVelocidad
+class tomaMate{
+	var property image
 	
 	method activar(personaje){
-		//personaje.velocidad(nuevaVelocidad)
+		game.schedule(5000, self.desactivar())
+		personaje.escudo(true)
 	}
 	
 	method desactivar(personaje){
-		//personaje.velocidad(-nuevaVelocidad)
+		personaje.escudo(false)
 	}
 }
 
-const tomaMate = new Velocidad( nuevaVelocidad = 5 )
-const fumaPorro = new Velocidad( nuevaVelocidad = -5 )
-
-object comeAsado{
-	const nuevoRadio = 3
-	const radioDefault = 1
+class fumaPorro{
+	var property nuevaVelocidad = 2
+	var property velDefault = 1
+	var property image = 'hoja.png'
 	
 	method activar(personaje){
-		//personaje.radio(nuevoRadio)
+		game.schedule(5000, self.desactivar())
+		personaje.velocidad(nuevaVelocidad)
 	}
 	
 	method desactivar(personaje){
-		//personaje.radio(radioDefault)
+		game.removeTickEvent('ActivaMejoraVelocidad')
+		personaje.velocidad(velDefault)
+	}
+}
+
+class comeAsado{
+	const nuevoRadio = 2
+	const radioDefault = 1
+	
+	method activar(personaje){
+		game.schedule(5000, self.desactivar())
+		personaje.radio(nuevoRadio)
+	}
+	
+	method desactivar(personaje){
+		personaje.radio(radioDefault)
 	}
 }

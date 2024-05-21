@@ -11,7 +11,7 @@ program Bombita {
 	game.height(12)
 	
 	//VISUALES
-	unJugador.iniciar()
+	iniciarJugador1.iniciar()
 	
 		
 	//JUEGO

@@ -6,7 +6,7 @@ import wollok.game.*
 
 const jugador1 = new Jugador()
 
-object unJugador{
+object iniciarJugador1 {
 	method iniciar(){
 	config.configurarTeclas()
 	game.addVisual(jugador1)
