@@ -1,10 +1,11 @@
 import bombas.*
 import bombita.*
-import mejoras.*
+//import mejoras.*
 import otros.*
 import wollok.game.*
 
 const jugador1 = new Jugador()
+const enemigo1 = new Enemigos()
 
 object iniciarJugador1 {
 	method iniciar(){
@@ -14,6 +15,8 @@ object iniciarJugador1 {
 	colisionadorIzquierdaP1.seguir()
 	colisionadorAbajoP1.seguir()
 	game.addVisual(jugador1)
+	game.addVisual(enemigo1)
+	game.onTick(1000,"Persigue", {enemigo1.Ir(1)})
 	game.addVisual(colisionadorArribaP1)
 	game.addVisual(colisionadorAbajoP1)
 	game.addVisual(colisionadorDerechaP1)

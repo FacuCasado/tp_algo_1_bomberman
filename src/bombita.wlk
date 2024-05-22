@@ -42,6 +42,30 @@ class Jugador {
 
 }
 
+class Enemigos {
+	
+	var property position = game.at(0.randomUpTo(25),0.randomUpTo(11))
+	var property image = "BOMBITARODRIGUEZ.png"
+	
+	
+	
+	method Persigue(posicionX, posicionY){
+	if (1 == 1){self.Ir(1)}
+	else if(posicionX > self.position().x()){self.Ir(2)}
+	
+	}
+	
+
+
+
+	method Ir(va){
+//	if(va==1){
+		self.position().right(1)
+//	}else if(va==2){self.position().left(1)}
+}
+//tiene que chequear que este mas a la izquierda, derecha arriba o abajo
+}
+
 class Colisionador {
 	var property jugador
 	var property position
@@ -83,4 +107,3 @@ const colisionadorAbajoP1 = new Colisionador(
 	jugador = jugador1,
 	position = jugador1.position().down(1)
 )
-
