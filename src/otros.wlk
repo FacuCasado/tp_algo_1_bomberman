@@ -1,5 +1,6 @@
 import wollok.game.*
 import bombita.*
+import config.*
 import mejoras.*
 
 class Caja {
@@ -58,6 +59,4 @@ const property image = "Fuego.png"
 	method seQuemo(){}
 	method esMejora(){return false}
 	
-
-
 }
