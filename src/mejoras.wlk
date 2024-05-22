@@ -1,42 +1,64 @@
-//class tomaMate{
-//	var property image
-//	
-//	method activar(personaje){
-//		game.schedule(5000, self.desactivar())
-//		personaje.escudo(true)
-//	}
-//	
-//	method desactivar(personaje){
-//		personaje.escudo(false)
-//	}
-//}
-//
-//class fumaPorro{
-//	var property nuevaVelocidad = 2
-//	var property velDefault = 1
-//	var property image = 'hoja.png'
-//	
-//	method activar(personaje){
-//		game.schedule(5000, self.desactivar())
-//		personaje.velocidad(nuevaVelocidad)
-//	}
-//	
-//	method desactivar(personaje){
-//		game.removeTickEvent('ActivaMejoraVelocidad')
-//		personaje.velocidad(velDefault)
-//	}
-//}
-//
-//class comeAsado{
-//	const nuevoRadio = 2
-//	const radioDefault = 1
-//	
-//	method activar(personaje){
-//		game.schedule(5000, self.desactivar())
-//		personaje.radio(nuevoRadio)
-//	}
-//	
-//	method desactivar(personaje){
-//		personaje.radio(radioDefault)
-//	}
-//}
+import wollok.game.*
+
+class Mejoras{
+	const property image
+	var property position
+	
+	method desactivar(personaje){
+		return true
+	}
+	
+	method activar(personaje){
+		
+	}
+	
+	method seQuemo(){}
+	
+	method esMejora(){
+		return true
+	}
+	
+}
+
+class TomaMate inherits Mejoras{
+	
+	override method activar(personaje){
+		game.schedule(5000, self.desactivar(personaje))
+		personaje.escudo(true)
+	}
+	
+	override method desactivar(personaje){
+		personaje.escudo(false)
+		return true
+	}
+}
+
+class FumaPorro inherits Mejoras{
+	var property nuevaVelocidad = 2
+	var property velDefault = 1
+	
+	override method activar(personaje){
+		game.schedule(5000, self.desactivar(personaje))
+		personaje.velocidad(nuevaVelocidad)
+	}
+	
+	override method desactivar(personaje){
+		personaje.velocidad(velDefault)
+		return true
+	}
+}
+
+class ComeAsado inherits Mejoras{
+	const nuevoRadio = 2
+	const radioDefault = 1
+	
+	override method activar(personaje){
+		game.schedule(5000, self.desactivar(personaje))
+		personaje.radio(nuevoRadio)
+	}
+	
+	override method desactivar(personaje){
+		personaje.radio(radioDefault)
+		return true
+	}
+}
