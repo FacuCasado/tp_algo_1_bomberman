@@ -19,7 +19,7 @@ class Jugador {
 	method soltarBomba(posicion){
 	if(self.cantBombas()<3){ 
 		self.cantBombas(self.cantBombas()+1)
-		game.addVisual(new Bomba().PoneBomba(posicion))
+		game.addVisual(new Bomba().PoneBomba(posicion, self))
 	}else{}
 	}
 	
@@ -46,22 +46,32 @@ class Enemigos {
 	
 	var property position = game.at(0.randomUpTo(25),0.randomUpTo(11))
 	var property image = "BOMBITARODRIGUEZ.png"
+	var property cantBombas = 0
 	
-	
-	
-	method Persigue(posicionX, posicionY){
-	if (1 == 1){self.Ir(1)}
-	else if(posicionX > self.position().x()){self.Ir(2)}
-	
+	method soltarBomba(posicion){
+	if(self.cantBombas()<3){ 
+		self.cantBombas(self.cantBombas()+1)
+		game.addVisual(new Bomba().PoneBomba(posicion, self))
+	}else{}
 	}
 	
-
-
+	
+	method Persigue(posicion, posicionX, posicionY){
+		if (self.position().distance(posicion)<3){self.soltarBomba(self.position())}
+		else {
+		if (posicionY.roundUp() > self.position().y().roundUp()){self.Ir(2)}
+		else if (posicionY.roundUp() < self.position().y().roundUp()){self.Ir(3)}
+		else if (posicionX.roundUp() > self.position().x().roundUp()){self.Ir(1)}
+		else if(posicionX.roundUp() < self.position().x().roundUp()){self.Ir(4)}else{}
+		}
+        }
 
 	method Ir(va){
-//	if(va==1){
-		self.position().right(1)
-//	}else if(va==2){self.position().left(1)}
+		if(va==1){position=self.position().right(1)}
+		else if(va==2){position=self.position().up(1)}
+		else if (va==3){position=self.position().down(1)}
+		else if (va==4){position=self.position().left(1)}
+//	
 }
 //tiene que chequear que este mas a la izquierda, derecha arriba o abajo
 }
