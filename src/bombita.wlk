@@ -29,3 +29,45 @@ class Jugador {
 
 }
 
+class Colisionador {
+	var property jugador
+	var property position
+	
+	method irA(nuevaPos){
+		position = nuevaPos
+	}
+	
+	method seguir(){
+		keyboard.left().onPressDo({ self.irA(self.position().left(1)) })
+		keyboard.right().onPressDo({ self.irA(self.position().right(1))})
+		keyboard.down().onPressDo({ self.irA(self.position().down(1)) })
+		keyboard.up().onPressDo({ self.irA(self.position().up(1))})
+	}
+	
+	method choca(){
+		
+	}
+	
+	method image() = "cajita.png"
+}
+
+const colisionadorArribaP1 = new Colisionador(
+	jugador = jugador1, 
+	position = jugador1.position().up(1)
+)
+
+const colisionadorDerechaP1 = new Colisionador(
+	jugador = jugador1,
+	position = jugador1.position().right(1)
+)
+
+const colisionadorIzquierdaP1 = new Colisionador(
+	jugador = jugador1,
+	position = jugador1.position().left(1)
+)
+
+const colisionadorAbajoP1 = new Colisionador(
+	jugador = jugador1,
+	position = jugador1.position().down(1)
+)
+

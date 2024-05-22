@@ -1,5 +1,6 @@
 import wollok.game.*
 import bombita.*
+import config.*
 
 class Caja {
 	
