@@ -10,13 +10,14 @@ const enemigo1 = new Enemigos()
 object iniciarJugador1 {
 	method iniciar(){
 	config.configurarTeclas()
+	config.configurarSeguimiento()
 	colisionadorArribaP1.seguir()
 	colisionadorDerechaP1.seguir()
 	colisionadorIzquierdaP1.seguir()
 	colisionadorAbajoP1.seguir()
 	game.addVisual(jugador1)
 	game.addVisual(enemigo1)
-	game.onTick(1000,"Persigue", {enemigo1.Ir(1)})
+	
 	game.addVisual(colisionadorArribaP1)
 	game.addVisual(colisionadorAbajoP1)
 	game.addVisual(colisionadorDerechaP1)
@@ -52,6 +53,10 @@ object config {
 		
 	}
 	
+	
+	method configurarSeguimiento(){
+		game.onTick(1000,"Persigue", {enemigo1.Persigue(jugador1.position() ,jugador1.position().x(), jugador1.position().y())})
+	}
 //	method configurarColisiones() {
 //		game.onCollideDo(Jugador, { Algo => Algo.teEncontro(Jugador) })
 //	}

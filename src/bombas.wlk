@@ -12,18 +12,18 @@ class Bomba {
 	var property position = game.at(0,0)
 	const property image = "Bomba.png"
 	
-	method Explotar(){//Funcion que hace explotar a la bomba eliminando la visual y llamando a las funciones que eliminen 
+	method Explotar(pusobomba){//Funcion que hace explotar a la bomba eliminando la visual y llamando a las funciones que eliminen 
 		game.removeVisual(self)
-		jugador1.cantBombas(jugador1.cantBombas()-1)
+		pusobomba.cantBombas(pusobomba.cantBombas()-1)
 		game.addVisual(new Fuego().poneFuego(self.position().up(1)))
 		game.addVisual(new Fuego().poneFuego(self.position().down(1)))
 		game.addVisual(new Fuego().poneFuego(self.position().right(1)))
 		game.addVisual(new Fuego().poneFuego(self.position().left(1)))
 	}
 	
-	method PoneBomba(posicion){//funcion que pasa la posicion y 
+	method PoneBomba(posicion, pusobomba){//funcion que pasa la posicion y 
 		self.position(posicion)
-		game.schedule(3000, {self.Explotar()})
+		game.schedule(3000, {self.Explotar(pusobomba)})
 		return self
 		
 	}
