@@ -14,7 +14,6 @@ object iniciarJugador1 {
 	colisionadorIzquierdaP1.seguir()
 	colisionadorAbajoP1.seguir()
 	game.addVisual(jugador1)
-	game.addVisual(caj2)
 	game.addVisual(colisionadorArribaP1)
 	game.addVisual(colisionadorAbajoP1)
 	game.addVisual(colisionadorDerechaP1)
@@ -30,11 +29,23 @@ object config {
 	
 	
 	method configurarTeclas() {
-		keyboard.left().onPressDo({ jugador1.irA(jugador1.position().left(1)) })
-		keyboard.right().onPressDo({ jugador1.irA(jugador1.position().right(1))})
-		keyboard.down().onPressDo({ jugador1.irA(jugador1.position().down(1)) })
-		keyboard.up().onPressDo({ jugador1.irA(jugador1.position().up(1))})
+		keyboard.left().onPressDo({ self.verificarPosicionX(jugador1.position().left(1)) })
+		keyboard.right().onPressDo({self.verificarPosicionX(jugador1.position().right(1)) })
+		keyboard.down().onPressDo({ self.verificarPosicionY(jugador1.position().down(1)) })
+		keyboard.up().onPressDo({ self.verificarPosicionY(jugador1.position().up(1)) })
 		keyboard.k().onPressDo({ jugador1.soltarBomba(jugador1.position())})
+	}
+	
+	method verificarPosicionX(as){
+		if (as.x().between(0,26)){
+			jugador1.irA(as)
+		}
+	}
+	
+	method verificarPosicionY(as){
+		if (as.y().between(0,12)){
+			jugador1.irA(as)
+		}
 		
 	}
 	

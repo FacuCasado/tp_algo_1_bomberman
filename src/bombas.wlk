@@ -27,6 +27,9 @@ class Bomba {
 		return self
 		
 	}
+	
+	method seQuemo(){}
+	method esMejora(){return false}
 }
 
 
