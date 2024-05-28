@@ -2,6 +2,7 @@ import wollok.game.*
 import config.*
 import otros.*
 import bombas.*
+import mejoras.*
 
 
 
@@ -10,12 +11,17 @@ class Jugador {
 	var property radio = 5
 	var property position
 	var property posicionPrevia = position
-	const property image = "BOMBITARODRIGUEZ.png"
 	var property cantBombas = 0
  	var property velocidad = 1
   	var property escudo = false
   	const property mejoras = []
   	var property estaVivo = true
+  
+  	method image(){if(mejoras.any{p=>p.esMejora()}){
+		return "bombita.png"
+	}else{
+		return "BOMBITARODRIGUEZ.png"
+	}}
   
 	method mejoras(){return mejoras}
 	
