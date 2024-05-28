@@ -5,8 +5,12 @@ import mejoras.*
 
 class Caja {
 	
-	const property image = "cabildofrente.png"
-	var property position = game.at(0.randomUpTo(25),0.randomUpTo(11))
+	var property position
+	method image() = "cabildofrente.png"
+	
+	method esCaja() = true
+	method esPared() = false
+	method esBomba() = false
 	
 	method removerConProbabilidadDeMejora() {
         game.removeVisual(self)
@@ -37,8 +41,8 @@ class Caja {
 
 
 class Fuego{
-var property position = game.at(0,0)
-const property image = "Fuego.png" 
+var property position = game.origin()
+method image() = "Fuego.png" 
 	
 	method Destruye(){
 		const collidObj = game.colliders(self)
@@ -57,6 +61,20 @@ const property image = "Fuego.png"
 	}
 	
 	method seQuemo(){}
-	method esMejora(){return false}
+	method esPared() = false
+	method esCaja() = false
+	method esBomba() = false
+	method esMejora() = false
 	
 }
+
+class Pared{
+	var property position
+	method image() = "pared.png"
+	method esPared() = true
+	method esCaja() = false
+	method esBomba() = false
+	method esMejora() = false
+	method seQuemo(){}
+}
+

@@ -14,10 +14,10 @@ class Mejoras{
 	
 	method seQuemo(){}
 	
-	method esMejora(){
-		return true
-	}
-	
+	method esMejora() = true
+	method esPared() = false
+	method esCaja() = false
+	method esBomba() = false	
 }
 
 class TomaMate inherits Mejoras{

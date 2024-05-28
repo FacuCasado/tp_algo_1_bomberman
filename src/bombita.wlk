@@ -8,13 +8,25 @@ import bombas.*
 class Jugador {
 	
 	var property radio = 5
-	var property position = game.at(0.randomUpTo(25),0.randomUpTo(11))
+	var property position
+	var property posicionPrevia = position
 	const property image = "BOMBITARODRIGUEZ.png"
 	var property cantBombas = 0
  	var property velocidad = 1
   	var property escudo = false
-  	var property mejoras = []
+  	const property mejoras = []
+  	var property estaVivo = true
   
+	method mejoras(){return mejoras}
+	
+	method seQuemo(){
+		if(escudo){
+			escudo = false
+		}else{
+		estaVivo = false
+		config.gameOver()
+		}
+	}
 	
 	method soltarBomba(posicion){
 	if(self.cantBombas()<3){ 
@@ -24,27 +36,31 @@ class Jugador {
 	}
 	
 	method irA(nuevaPosicion) {
-	//	if (game.colliders(jugador1)==)
-		position = nuevaPosicion
-		return true
+		if(self.estaVivo()){
+			posicionPrevia = position
+			position = nuevaPosicion	
+		}
 	}
 	
-	method agarrarMejora(){
-		const mej = game.colliders(self).map({
-			e => if(e.esMejora()) {
-				game.removeVisual(e)
-				return e
-			}
-		})
-		return true
+	method volver() {
+		position = posicionPrevia
 	}
-	method esMejora(){return false}
+	
+	method agarrarMejora(mejora){
+		mejoras.add(mejora)
+	}
+	
+	method esPared() = false
+	method esCaja() = false
+	method esBomba() = false
+	method esMejora() = false
 
 }
 
 class Enemigos {
 	
-	var property position = game.at(0.randomUpTo(25),0.randomUpTo(11))
+	var property position
+	var property posicionPrevia = position
 	var property image = "BOMBITARODRIGUEZ.png"
 	var property cantBombas = 0
 	
@@ -67,53 +83,32 @@ class Enemigos {
         }
 
 	method Ir(va){
-		if(va==1){position=self.position().right(1)}
-		else if(va==2){position=self.position().up(1)}
-		else if (va==3){position=self.position().down(1)}
-		else if (va==4){position=self.position().left(1)}
-//	
+		if(va==1){
+			posicionPrevia = position
+			position=self.position().right(1)
+		}
+		else if(va==2){
+			posicionPrevia = position
+			position=self.position().up(1)
+		}
+		else if (va==3){
+			posicionPrevia = position
+			position=self.position().down(1)
+		}
+		else if (va==4){
+			posicionPrevia = position
+			position=self.position().left(1)
+		}
 }
+
+	method volver(){
+		position = posicionPrevia
+	}
+	method esMejora() = false
+	method esPared() = false
+	method esCaja() = false
+	method esBomba() = false
 //tiene que chequear que este mas a la izquierda, derecha arriba o abajo
 }
 
-class Colisionador {
-	var property jugador
-	var property position
-	
-	method irA(nuevaPos){
-		position = nuevaPos
-	}
-	
-	method seguir(){
-		keyboard.left().onPressDo({ self.irA(self.position().left(1)) })
-		keyboard.right().onPressDo({ self.irA(self.position().right(1))})
-		keyboard.down().onPressDo({ self.irA(self.position().down(1)) })
-		keyboard.up().onPressDo({ self.irA(self.position().up(1))})
-	}
-	
-	method choca(){
-		
-	}
-	
-	method image() = "cajita.png"
-}
 
-const colisionadorArribaP1 = new Colisionador(
-	jugador = jugador1, 
-	position = jugador1.position().up(1)
-)
-
-const colisionadorDerechaP1 = new Colisionador(
-	jugador = jugador1,
-	position = jugador1.position().right(1)
-)
-
-const colisionadorIzquierdaP1 = new Colisionador(
-	jugador = jugador1,
-	position = jugador1.position().left(1)
-)
-
-const colisionadorAbajoP1 = new Colisionador(
-	jugador = jugador1,
-	position = jugador1.position().down(1)
-)
