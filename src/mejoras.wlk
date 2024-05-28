@@ -13,7 +13,6 @@ class Mejoras{
 	}
 	
 	method seQuemo(){}
-	
 	method esMejora() = true
 	method esPared() = false
 	method esCaja() = false
