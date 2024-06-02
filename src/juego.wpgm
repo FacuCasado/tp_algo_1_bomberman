@@ -18,4 +18,3 @@ program Bombita {
 	//JUEGO
 	game.start()
 }
-

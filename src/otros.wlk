@@ -76,5 +76,6 @@ class Pared{
 	method esBomba() = false
 	method esMejora() = false
 	method seQuemo(){}
+
 }
 
