@@ -7,6 +7,7 @@ import Colisionadores.*
 
 
 
+
 class Jugador {
 	
 	var property radio = 5
@@ -47,6 +48,7 @@ class Jugador {
 			posicionPrevia = position
 			position = nuevaPosicion	
 		}
+
 	}
 	
 	method volver() {
@@ -57,6 +59,7 @@ class Jugador {
 		mejoras.add(mejora)
 	}
 	
+
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = false
@@ -109,6 +112,7 @@ class Enemigos {
 			posicionPrevia = position
 			position=self.position().left(1)
 		}
+
 		
 }
 
@@ -164,3 +168,4 @@ class Enemigos {
 		}
 
 }
+

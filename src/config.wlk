@@ -13,17 +13,21 @@ object iniciarJugador1 {
 	game.addVisual(jugador1)
 	game.addVisual(enemigo1)
 	config.configurarTeclas()
+
 	config.configurarSeguimiento(enemigo1)
 	config.configurarColisiones(jugador1)
 	config.configurarColisiones(enemigo1)
 	config.tomarMejora(jugador1)
 	enemigo1.creacolisionadores()
+
 }
 }
 
 
 object iniciarParedes {
-method iniciar(){
+
+	method iniciar(){
+
 		game.addVisual(new Pared(position = game.at(0, 0)))
 		game.addVisual(new Pared(position = game.at(0, 1)))
 		game.addVisual(new Pared(position = game.at(0, 2)))
@@ -141,9 +145,10 @@ method iniciar(){
 }
 
 object iniciarCajas{
-	
+
 	method generarCajas(fila){
-		const nuevaPos = game.at(1.randomUpTo(23), fila)
+		var nuevaPos = game.at(1.randomUpTo(23), fila)
+
 		if (nuevaPos == game.at(1, 1) or nuevaPos == game.at(23, 9)){
 			return self.generarCajas(fila)
 		}
@@ -226,10 +231,9 @@ object config {
 	}
 	
 	
+
 	method configurarSeguimiento(enemigo){
 		game.onTick(3000,"Persigue", {enemigo.Persigue(jugador1.position() ,jugador1.position().x(), jugador1.position().y())})
 	}
-	
-	
-	
+
 }
