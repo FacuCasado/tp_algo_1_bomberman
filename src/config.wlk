@@ -7,18 +7,26 @@ import Colisionadores.*
 
 const jugador1 = new Jugador(position = game.at(1,1))
 const enemigo1 = new Enemigos(position = game.at(23,9))
-
+const enemigo2 = new Enemigos(position = game.at(1,9))
+const enemigo3 = new Enemigos(position = game.at(23,1))
 object iniciarJugador1 {
 	method iniciar(){
 	game.addVisual(jugador1)
 	game.addVisual(enemigo1)
+	game.addVisual(enemigo3)
+	game.addVisual(enemigo2)
 	config.configurarTeclas()
-
 	config.configurarSeguimiento(enemigo1)
+	config.configurarSeguimiento(enemigo2)
+	config.configurarSeguimiento(enemigo3)
 	config.configurarColisiones(jugador1)
 	config.configurarColisiones(enemigo1)
+	config.configurarColisiones(enemigo2)
+	config.configurarColisiones(enemigo3)
 	config.tomarMejora(jugador1)
 	enemigo1.creacolisionadores()
+	enemigo3.creacolisionadores()
+	enemigo2.creacolisionadores()
 
 }
 }
@@ -145,25 +153,62 @@ object iniciarParedes {
 }
 
 object iniciarCajas{
-
-	method generarCajas(fila){
-		var nuevaPos = game.at(1.randomUpTo(23), fila)
-
-		if (nuevaPos == game.at(1, 1) or nuevaPos == game.at(23, 9)){
-			return self.generarCajas(fila)
-		}
-		return nuevaPos
-	}
+	const coord = []
+	var coordX=1
+	var coordY=1
 	
-	method iniciar(){
-		11.times {i => game.addVisual(new Caja(position = self.generarCajas(1)))}
-		11.times {i => game.addVisual(new Caja(position = self.generarCajas(3)))}
-		11.times {i => game.addVisual(new Caja(position = self.generarCajas(5)))}
-		11.times {i => game.addVisual(new Caja(position = self.generarCajas(7)))}
-		11.times {i => game.addVisual(new Caja(position = self.generarCajas(9)))}
-	} //genera las cajas medio random pero por fila
-}
 
+	method llenoVector(){//funcion que usa una especie de recursividad con el ontick para llenar el vector de coordenadas posibles para las paredes
+		game.onTick(1,"llenaarray", {if (coordX == (game.width()-2) and coordY == (game.height()-2)){
+			self.iniciar()
+			
+		}else{
+			if ((coordX == 1 or coordX == game.width()-2) and (coordY == 1 or coordY == game.height()-2)){
+				if (coordX==23){
+						coordX=1
+						coordY= coordY +2
+					}else{coordX = coordX + 2}
+			}
+				else{
+					coord.add(game.at(coordX, coordY))
+					if (coordX==23){
+						coordX=1
+						coordY= coordY +2
+					}else{coordX = coordX + 2}}
+			
+			}
+			
+			
+			})
+		
+			
+			//(game.width()-2) and coordY == (game.height()-2)
+		
+		
+		}
+		
+	
+
+//	method generarCajas(){
+//		const nuevaPos = game.at(1.randomUpTo(23), fila)
+//
+//		if (nuevaPos == game.at(1, 1) or nuevaPos == game.at(23, 9)){
+//			return self.generarCajas(fila)
+//		}
+//		return nuevaPos
+//	}
+//	
+	method iniciar(){//elije al azar los lugares y los carga en pantalla
+		game.removeTickEvent("llenaarray")
+		66.times({i => game.addVisual(new Caja(position = coord.anyOne()))})}
+	//}
+	//} //genera las cajas medio random pero por fila
+	
+	
+	
+	
+	
+}
 
 object config {
 	
@@ -177,17 +222,27 @@ object config {
 	method reiniciarJuego(){
 		if (!estaReiniciado){
 		game.clear()
-		iniciarJugador1.iniciar()
 		iniciarParedes.iniciar()
 		iniciarCajas.iniciar()
+		enemigo1.creacolisionadores()
 		jugador1.estaVivo(true)
+		jugador1.cantBombas(0)
+		enemigo1.cantBombas(0)
+		enemigo1.image("BOMBITARODRIGUEZ.png")
+		enemigo1.reload(true)
 		jugador1.position(game.at(1, 1))
 		enemigo1.position(game.at(23,9))
+		game.addVisual(jugador1)
+		game.addVisual(enemigo1)
+		self.configurarTeclas()
+		self.configurarSeguimiento(enemigo1)
+		self.configurarColisiones(jugador1)
+		self.configurarColisiones(enemigo1)
+		self.tomarMejora(jugador1)
 		
 		estaReiniciado = true
-		self.configurarTeclas()
 		//JUEGO
-		game.start()
+		
 		
 		}
 	}
@@ -233,7 +288,7 @@ object config {
 	
 
 	method configurarSeguimiento(enemigo){
-		game.onTick(3000,"Persigue", {enemigo.Persigue(jugador1.position() ,jugador1.position().x(), jugador1.position().y())})
+		game.onTick(2300,"Persigue", {enemigo.Persigue(jugador1.position() ,jugador1.position().x(), jugador1.position().y())})
 	}
 
 }

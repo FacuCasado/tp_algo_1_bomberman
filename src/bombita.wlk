@@ -32,6 +32,8 @@ class Jugador {
 			escudo = false
 		}else{
 		estaVivo = false
+		game.removeTickEvent("Colisionadores")
+		game.removeTickEvent("Persigue")
 		config.gameOver()
 		}
 	}
@@ -75,8 +77,9 @@ class Enemigos {
 	var property cantBombas = 0
 	var property reload = true
 	
+	
 	method soltarBomba(posicion){
-	if(self.cantBombas()<3 and reload){
+	if(self.cantBombas()<3){
 		reload = false 
 		self.cantBombas(self.cantBombas()+1)
 		game.addVisual(new Bomba().PoneBomba(posicion, self))
@@ -86,7 +89,7 @@ class Enemigos {
 	
 	
 	method Persigue(posicion, posicionX, posicionY){
-		if (self.position().distance(posicion)<3){self.soltarBomba(self.position())}
+		if (self.position().distance(posicion)<3 and reload){self.soltarBomba(self.position())}
 		else {
 		if (posicionY.roundUp() > self.position().y().roundUp()){self.Ir(2)}
 		else if (posicionY.roundUp() < self.position().y().roundUp()){self.Ir(3)}
@@ -119,29 +122,25 @@ class Enemigos {
 	method escapaBombaDer(){
 			posicionPrevia = position
 			position=self.position().right(1)
-			posicionPrevia = position
-			position=self.position().right(1)
+		
 		
 	}
 	
 	method escapaBombaIzq(){
 		posicionPrevia = position
 		position=self.position().left(1)
-		posicionPrevia = position
-		position=self.position().left(1)
+		return !(posicionPrevia == position)
 		
 	}
 	method escapaBombaArriba(){
 		posicionPrevia = position
 		position=self.position().up(1)
-		posicionPrevia = position
-		position=self.position().up(1)
+		
 	}
 	method escapaBombaAbajo(){
 		posicionPrevia = position
 		position=self.position().down(1)
-		posicionPrevia = position
-		position=self.position().down(1)
+	
 	}
 
 	method volver(){
@@ -156,11 +155,18 @@ class Enemigos {
 
 	method seQuemo(){
 			 self.image ("BOMBITARODRIGUEZBN.png")
+			 game.removeTickEvent("Colisionadores")
+			 game.removeTickEvent("Persigue")
+			 game.schedule(3000, {
+			 	self.position(posicionoriginal)
+			 	self.image ("BOMBITARODRIGUEZ.png")
+			 	game.addVisual(self)
+			 })
 			 game.schedule(1000, {game.removeVisual(self)})
 	}
 	
 	method creacolisionadores(){
-		game.onTick(2000,"Colisionadores", {
+		game.onTick(1000,"Colisionadores", {
 			game.addVisual(new ColiArriba().poneColisionador(self.position().up(1), self))
 			game.addVisual(new ColiAbajo().poneColisionador(self.position().down(1), self))
 			game.addVisual(new ColiDer().poneColisionador(self.position().right(1), self))
