@@ -7,14 +7,14 @@ program Bombita {
 
 	//CONFIG
 	game.title("Bombita")
-	game.width(26)
-	game.height(12)
+	game.width(25)
+	game.height(11)
 	
 	//VISUALES
 	iniciarJugador1.iniciar()
-	
+	iniciarParedes.iniciar()
+	iniciarCajas.iniciar()
 		
 	//JUEGO
 	game.start()
 }
-
