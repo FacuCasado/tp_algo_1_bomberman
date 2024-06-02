@@ -1,6 +1,6 @@
 import bombas.*
 import bombita.*
-//import mejoras.*
+import mejoras.*
 import otros.*
 import wollok.game.*
 import Colisionadores.*
@@ -251,7 +251,6 @@ object config {
 		game.onCollideDo(jugador, {objeto => 
 			if(objeto.esMejora()){
 				jugador.agarrarMejora(objeto)
-				game.removeVisual(objeto)
 			} //agarra las mejoras y las agrega a la lista del personaje
 		})
 	}
@@ -270,6 +269,7 @@ object config {
 		keyboard.down().onPressDo({ self.verificarPosicionY(jugador1.position().down(1)) })
 		keyboard.up().onPressDo({ self.verificarPosicionY(jugador1.position().up(1)) })
 		keyboard.k().onPressDo({ jugador1.soltarBomba(jugador1.position())})
+		keyboard.l().onPressDo({ jugador1.activarMejora()})
 	}
 	
 	method verificarPosicionX(as){
