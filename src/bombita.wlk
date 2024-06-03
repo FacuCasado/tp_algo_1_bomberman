@@ -60,7 +60,6 @@ class Jugador {
 	method agarrarMejora(mejora){
 		if(not mejoras.contains(mejora)){
 			mejoras.add(mejora)		
-			//mejora.position(game.at(0, 0))
 			game.removeVisual(mejora)	
 		}
 	}
@@ -70,7 +69,6 @@ class Jugador {
 			const mejoraParaActivar = mejoras.first()
 			mejoras.remove(mejoraParaActivar)
 			mejoraParaActivar.activar(self)
-			//game.schedule(5000, mejoraParaActivar.desactivar(self))
 			game.say(self, mejoraParaActivar.mensajeActivacion())
 		} else {
 			game.say(self, 'No Tengo Mejoras :(')

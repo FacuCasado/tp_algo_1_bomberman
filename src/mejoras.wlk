@@ -5,15 +5,24 @@ class Mejoras{
 	const property image
 	var property position
 	
-	method desactivar(personaje){
-		return true
+	
+	// Validacion de metodos que no le pueden faltar a una mejora
+	method desactivar(personaje){}
+	
+	method activar(personaje){}
+	
+	method programarDesactivar(personaje){
+		game.schedule(5000, {=>self.desactivar(personaje)})
 	}
 	
-	method activar(personaje){
-		
+	method mensajeActivacion(){
+		return 'Mejora Activada'
 	}
 	
-	method seQuemo(){}
+	method seQuemo(){
+		game.removeVisual(self)
+	}
+	
 	method esMejora() = true
 	method esPared() = false
 	method esCaja() = false
@@ -22,18 +31,17 @@ class Mejoras{
 
 class TomaMate inherits Mejoras{
 	
-	method mensajeActivacion(){
-		return 'Activo Mate'
+	override method mensajeActivacion(){
+		return 'Pasado de mates'
 	}
 	
 	override method activar(personaje){
-		game.schedule(5000, self.desactivar(personaje))
+		self.programarDesactivar(personaje)
 		personaje.escudo(true)
 	}
 	
 	override method desactivar(personaje){
 		personaje.escudo(false)
-		return true
 	}
 }
 
@@ -41,35 +49,33 @@ class FumaPorro inherits Mejoras{
 	var property nuevaVelocidad = 2
 	var property velDefault = 1
 	
-	method mensajeActivacion(){
-		return 'Activo Fumar'
+	override method mensajeActivacion(){
+		return 'Pego?'
 	}
 	
 	override method activar(personaje){
-		game.schedule(5000, self.desactivar(personaje))
+		self.programarDesactivar(personaje)
 		personaje.velocidad(nuevaVelocidad)
 	}
 	
 	override method desactivar(personaje){
 		personaje.velocidad(velDefault)
-		return true
 	}
 }
 
 class ComeAsado inherits Mejoras{
 	
-	method mensajeActivacion(){
-		return 'Activo Asado'
+	override method mensajeActivacion(){
+		return 'Poder Asado'
 	}
 	
 	
 	override method activar(personaje){
-		//game.schedule(5000, self.desactivar(personaje))
+		self.programarDesactivar(personaje)
 		personaje.radioAumentado(true)
 	}
 	
 	override method desactivar(personaje){
 		personaje.radioAumentado(false)
-		return true
 	}
 }
