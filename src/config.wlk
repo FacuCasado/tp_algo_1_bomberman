@@ -11,11 +11,16 @@ const enemigo2 = new Enemigos(position = game.at(1,9))
 const enemigo3 = new Enemigos(position = game.at(23,1))
 object iniciarJugador1 {
 	method iniciar(){
+	jugador1.estaVivo(true)
+	jugador1.position(game.at(1, 1))
+	config.configurarTeclas()
+	enemigo1.position(game.at(23,9))
+	enemigo2.position(game.at(1,9))
+	enemigo3.position(game.at(23,1))
 	game.addVisual(jugador1)
 	game.addVisual(enemigo1)
 	game.addVisual(enemigo3)
 	game.addVisual(enemigo2)
-	config.configurarTeclas()
 	config.configurarSeguimiento(enemigo1)
 	config.configurarSeguimiento(enemigo2)
 	config.configurarSeguimiento(enemigo3)
@@ -212,7 +217,6 @@ object iniciarCajas{
 
 object config {
 	
-	var property estaReiniciado = false
 	
 	method gameOver(){
 		game.say(jugador1, "Presiona R para reiniciar")
@@ -220,31 +224,11 @@ object config {
 	}
 	
 	method reiniciarJuego(){
-		if (!estaReiniciado){
 		game.clear()
+		iniciarCajas.llenoVector()
 		iniciarParedes.iniciar()
-		iniciarCajas.iniciar()
-		enemigo1.creacolisionadores()
-		jugador1.estaVivo(true)
-		jugador1.cantBombas(0)
-		enemigo1.cantBombas(0)
-		enemigo1.image("BOMBITARODRIGUEZ.png")
-		enemigo1.reload(true)
-		jugador1.position(game.at(1, 1))
-		enemigo1.position(game.at(23,9))
-		game.addVisual(jugador1)
-		game.addVisual(enemigo1)
-		self.configurarTeclas()
-		self.configurarSeguimiento(enemigo1)
-		self.configurarColisiones(jugador1)
-		self.configurarColisiones(enemigo1)
-		self.tomarMejora(jugador1)
-		
-		estaReiniciado = true
-		//JUEGO
-		
-		
-		}
+		jugador1.mejoras().clear()
+		game.schedule(2500, {iniciarJugador1.iniciar()})
 	}
 
 	method tomarMejora(jugador) {
@@ -257,12 +241,12 @@ object config {
 
 	method configurarColisiones(jugador) {
 		game.onCollideDo(jugador, {objeto =>
-			if(objeto.esCaja() || objeto.esPared() || objeto.esBomba()){
+			if(objeto.esCaja() || objeto.esPared() || objeto.esBomba() || objeto.esJugador()){
 				jugador.volver()
 			}
 			}) //metodo para que el jugador y el enemigo colisionen
 	}
-	
+		
 	method configurarTeclas() {
 		keyboard.left().onPressDo({ self.verificarPosicionX(jugador1.position().left(1)) })
 		keyboard.right().onPressDo({self.verificarPosicionX(jugador1.position().right(1)) })

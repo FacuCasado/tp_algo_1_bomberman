@@ -15,6 +15,7 @@ class Bomba {
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = true
+	method esJugador() = false
 	
 	method Explotar(pusobomba, radioAumentado){//Funcion que hace explotar a la bomba eliminando la visual y llamando a las funciones que eliminen 
 		game.removeVisual(self)

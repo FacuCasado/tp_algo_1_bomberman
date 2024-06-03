@@ -79,6 +79,7 @@ class Jugador {
 	method esCaja() = false
 	method esBomba() = false
 	method esMejora() = false
+	method esJugador() = true
 
 }
 
@@ -163,6 +164,7 @@ class Enemigos {
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = false
+	method esJugador() = true
 //tiene que chequear que este mas a la izquierda, derecha arriba o abajo
 
 

@@ -26,7 +26,8 @@ class Mejoras{
 	method esMejora() = true
 	method esPared() = false
 	method esCaja() = false
-	method esBomba() = false	
+	method esBomba() = false
+	method esJugador() = false	
 }
 
 class TomaMate inherits Mejoras{

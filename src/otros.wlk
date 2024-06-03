@@ -8,9 +8,11 @@ class Caja {
 	var property position
 	method image() = "cabildofrente.png"
 	
-	method esCaja() = true
+	method esMejora() = false
 	method esPared() = false
+	method esCaja() = true
 	method esBomba() = false
+	method esJugador() = false
 	
 	method removerConProbabilidadDeMejora() {
         game.removeVisual(self)
@@ -36,7 +38,6 @@ class Caja {
 		self.removerConProbabilidadDeMejora()
 	}
 	
-	method esMejora(){return false}
 }
 
 
@@ -61,20 +62,22 @@ method image() = "Fuego.png"
 	}
 	
 	method seQuemo(){}
+	method esMejora() = false
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = false
-	method esMejora() = false
+	method esJugador() = false
 	
 }
 
 class Pared{
 	var property position
 	method image() = "pared.png"
+	method esMejora() = false
 	method esPared() = true
 	method esCaja() = false
 	method esBomba() = false
-	method esMejora() = false
+	method esJugador() = false
 	method seQuemo(){}
 
 }
