@@ -12,17 +12,10 @@ program Bombita {
 	game.height(11)
 	game.boardGround("fondo.jpg")
 	
-	//PANTALLA DE INICIO
-	
-	
 	//VISUALES
-
 	pantallaInicio.On()
 	
-
-
 		
 	//JUEGO
 	game.start()
 }
-
