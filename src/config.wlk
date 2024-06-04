@@ -4,6 +4,7 @@ import mejoras.*
 import otros.*
 import wollok.game.*
 import Colisionadores.*
+import pantallainicio.*
 
 const jugador1 = new Jugador(position = game.at(1,1))
 const enemigo1 = new Enemigos(position = game.at(23,9))
@@ -19,6 +20,7 @@ object iniciarJugador1 {
 	enemigo3.position(game.at(23,1))
 	game.addVisual(jugador1)
 	game.addVisual(enemigo1)
+	config.configurarTeclas()
 	game.addVisual(enemigo3)
 	game.addVisual(enemigo2)
 	config.configurarSeguimiento(enemigo1)
@@ -246,28 +248,27 @@ object config {
 			}
 			}) //metodo para que el jugador y el enemigo colisionen
 	}
-		
+
+	
+	method borraTeclas(){
+		keyboard.left().onPressDo({})
+		keyboard.right().onPressDo({ })
+		keyboard.down().onPressDo({})
+		keyboard.up().onPressDo({})
+		keyboard.k().onPressDo({})
+		keyboard.enter().onPressDo({})
+	}
+	
 	method configurarTeclas() {
-		keyboard.left().onPressDo({ self.verificarPosicionX(jugador1.position().left(1)) })
-		keyboard.right().onPressDo({self.verificarPosicionX(jugador1.position().right(1)) })
-		keyboard.down().onPressDo({ self.verificarPosicionY(jugador1.position().down(1)) })
-		keyboard.up().onPressDo({ self.verificarPosicionY(jugador1.position().up(1)) })
-		keyboard.k().onPressDo({ jugador1.soltarBomba(jugador1.position())})
-		keyboard.l().onPressDo({ jugador1.activarMejora()})
-	}
+		keyboard.left().onPressDo({ if (pantallaInicio.chequea()){botonpersonaje.selPersonaje()}else{self.verificarPosicionX(jugador1.position().left(1)) }})
+		keyboard.right().onPressDo({ if (pantallaInicio.chequea()){botonpersonaje.selPersonaje()}else{self.verificarPosicionX(jugador1.position().right(1)) }})
+		keyboard.down().onPressDo({ if (pantallaInicio.chequea()){pantallaInicio.cambio()}else{ self.verificarPosicionY(jugador1.position().down(1)) }})
+		keyboard.up().onPressDo({  if (pantallaInicio.chequea()){pantallaInicio.cambio()}else{self.verificarPosicionY(jugador1.position().up(1)) }})
+		keyboard.k().onPressDo({  if (pantallaInicio.chequea()){}else{jugador1.soltarBomba(jugador1.position())}})
+		keyboard.enter().onPressDo({if (pantallaInicio.chequea()){pantallaInicio.eligio()}})
+
+		
 	
-	method reconfigurarTeclas(){
-		keyboard.right().onPressDo({ self.verificarPosicionX(jugador1.position().left(1)) })
-		keyboard.left().onPressDo({self.verificarPosicionX(jugador1.position().right(1)) })
-		keyboard.up().onPressDo({ self.verificarPosicionY(jugador1.position().down(1)) })
-		keyboard.down().onPressDo({ self.verificarPosicionY(jugador1.position().up(1)) })
-	}
-	
-	method volverTeclas(){
-		keyboard.left().onPressDo({ self.verificarPosicionX(jugador1.position().left(1)) })
-		keyboard.right().onPressDo({self.verificarPosicionX(jugador1.position().right(1)) })
-		keyboard.down().onPressDo({ self.verificarPosicionY(jugador1.position().down(1)) })
-		keyboard.up().onPressDo({ self.verificarPosicionY(jugador1.position().up(1)) })
 	}
 	
 	method verificarPosicionX(as){

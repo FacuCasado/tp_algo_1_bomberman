@@ -15,14 +15,16 @@ class Jugador {
   	var property escudo = false
   	var property mejoras = []
   	var property estaVivo = true
+
+  	var property image = "bombita.png"
+//  	method imagen(){if(mejoras.any{p=>p.esMejora()}){
+//		image = "bombita.png"
+//	}else{
+//		return "BOMBITARODRIGUEZ.png"
+//	}}
   
-  	method image(){if(mejoras.any{p=>p.esMejora()}){
-		return "bombita.png"
-	}else if(escudo){
-		return "cajita.png"
-	} else{
-		return "BOMBITARODRIGUEZ.png"		
-	}}
+	method mejoras(){return mejoras}
+
 	
 	method seQuemo(){
 		if(!escudo){
@@ -203,3 +205,9 @@ class Enemigos {
 
 }
 
+
+object muestra inherits Jugador(position = game.at (11, 4)){
+	 method imagen (nuevo){
+		self.image(nuevo)
+	}
+}
