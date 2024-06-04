@@ -256,6 +256,20 @@ object config {
 		keyboard.l().onPressDo({ jugador1.activarMejora()})
 	}
 	
+	method reconfigurarTeclas(){
+		keyboard.right().onPressDo({ self.verificarPosicionX(jugador1.position().left(1)) })
+		keyboard.left().onPressDo({self.verificarPosicionX(jugador1.position().right(1)) })
+		keyboard.up().onPressDo({ self.verificarPosicionY(jugador1.position().down(1)) })
+		keyboard.down().onPressDo({ self.verificarPosicionY(jugador1.position().up(1)) })
+	}
+	
+	method volverTeclas(){
+		keyboard.left().onPressDo({ self.verificarPosicionX(jugador1.position().left(1)) })
+		keyboard.right().onPressDo({self.verificarPosicionX(jugador1.position().right(1)) })
+		keyboard.down().onPressDo({ self.verificarPosicionY(jugador1.position().down(1)) })
+		keyboard.up().onPressDo({ self.verificarPosicionY(jugador1.position().up(1)) })
+	}
+	
 	method verificarPosicionX(as){
 		if (as.x().between(1,23)){
 			jugador1.irA(as)

@@ -55,7 +55,6 @@ class Jugador {
 	method agarrarMejora(mejora){
 		if(self.validarMejora(mejora)){
 			mejoras.add(mejora)
-			mejoras.withoutDuplicates()
 			game.removeVisual(mejora)	
 		} else{
 			game.say(self,'Ya tengo la mejora')
