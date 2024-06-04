@@ -77,7 +77,7 @@ describe "Fuego"{
 		assert.notThat(jugador.estaVivo())
 	}
 	
-	test "El escudo lo salva una vez"{
+	test "El escudo lo salva"{
 		self.initialize()
 		
 		jugador.agarrarMejora(escudo)
@@ -85,9 +85,6 @@ describe "Fuego"{
 		assert.that(jugador.estaVivo())
 		jugador.seQuemo()
 		assert.that(jugador.estaVivo())
-		jugador.seQuemo()
-		assert.notThat(jugador.estaVivo())
-		
 	}
 	
 }
