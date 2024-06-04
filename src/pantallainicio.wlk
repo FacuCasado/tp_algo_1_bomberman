@@ -6,31 +6,24 @@ import mejoras.*
 import bombita.*
 import Colisionadores.*
 
-const personajes = ["Bomba.png", "BOMBITARODRIGUEZ.PNG", "peron64.png"]
+const personajes = #{"Bomba.png", "BOMBITARODRIGUEZ.PNG", "peron64"}
 
 
 object pantallaInicio {
 	var property estainicio = true
 	var property elegido = 0
-	var property estaeligiendo = true
+	var estaeligiendo = true
 	method cambio(){
 		if (estaeligiendo){
 			if (elegido == 0){
-				elegido = 1
-				botonpersonaje.image("pared.png")
-				botoninicio.image("bombita.png")
-			}else {
-				botonpersonaje.image("bombita.png")
-				botoninicio.image("pared.png")
-				elegido =0
-			}}
+				elegido =1
+			}else {elegido =0}}
 	}
-	
 	
 	
 	method On(){
 		
-		game.clear()
+		
 		game.addVisual(botoninicio)
 		game.addVisual(botonpersonaje)
 		config.configurarTeclas()
@@ -42,23 +35,17 @@ object pantallaInicio {
 			botoninicio.elegido()}
 			else if (elegido == 1){
 				botonpersonaje.elegido()
-			}else{
+				elegido = 2
+				estaeligiendo = false
+			}else if(elegido == 2){elegido = 0
 				game.clear()
-				elegido = 0
-				botonpersonaje.image("bombita.png")
-				botoninicio.image("pared.png")
-				self.vuelveinicio()
-			
-		}
-		}
-		
-	method vuelveinicio(){
-				
 				botonpersonaje.puedeelegir(false)
 				estaeligiendo = true
 				config.borraTeclas()
 				self.On()
-	}
+			}
+		}
+		
 	
 	
 	method chequea(){
@@ -76,7 +63,6 @@ class Botones{
 	var property image
 	var property puedeelegir = false
 	
-	
 	method elegido(){
 		
 		
@@ -84,7 +70,7 @@ class Botones{
 	
 }
 
-object botoninicio inherits Botones(position = game.at(11, 5), image = "pared.png"){
+object botoninicio inherits Botones(position = game.at(11, 5), image = "bombita.png"){
 	override method elegido(){
 		pantallaInicio.estainicio(false)
 		game.clear()
@@ -97,26 +83,18 @@ object botoninicio inherits Botones(position = game.at(11, 5), image = "pared.pn
 
 
 object botonpersonaje inherits Botones(position = game.at(11, 2), image = "bombita.png"){
-	var cambiapersonaje = 0
-	
 	override method elegido(){
 		game.clear()
 		config.borraTeclas()
 		game.addVisual(muestra)
 		config.configurarTeclas()
-		self.puedeelegir(true)
-		pantallaInicio.estainicio(true)
-		
-		
-		
-		
+		puedeelegir = true
 	}
 	
 	method selPersonaje(){
-			if (cambiapersonaje < personajes.size()-1){
-			cambiapersonaje = cambiapersonaje+1}else{cambiapersonaje = 0}
-			muestra.image(personajes.get(cambiapersonaje))
-			imagenElegida.imagenelegida(muestra.image())
+		if (puedeelegir){
+			muestra.imagen(personajes.anyOne())
+		}else{}
 		
 	}
 }

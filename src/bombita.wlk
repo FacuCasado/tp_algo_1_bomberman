@@ -5,22 +5,18 @@ import bombas.*
 import mejoras.*
 import Colisionadores.*
 
-
-
-
 class Jugador {
 	
-	var property puedevolveramoverse = true
-	var property radio = 5
+	var property radioAumentado = false
 	var property position
 	var property posicionPrevia = position
 	var property cantBombas = 0
  	var property velocidad = 1
   	var property escudo = false
-  	const property mejoras = []
+  	var property mejoras = []
   	var property estaVivo = true
-  	var property image = imagenElegida.imagenelegida()
-  	
+
+  	var property image = "bombita.png"
 //  	method imagen(){if(mejoras.any{p=>p.esMejora()}){
 //		image = "bombita.png"
 //	}else{
@@ -28,30 +24,29 @@ class Jugador {
 //	}}
   
 	method mejoras(){return mejoras}
+
 	
 	method seQuemo(){
-		if(escudo){
-			escudo = false
-		}else{
-		estaVivo = false
-		config.gameOver()
+		if(!escudo){
+			estaVivo = false
+			//game.removeTickEvent("Colisionadores")
+			//game.removeTickEvent("Persigue")
+			config.gameOver(self)
 		}
 	}
 	
 	method soltarBomba(posicion){
 	if(self.cantBombas()<3){ 
 		self.cantBombas(self.cantBombas()+1)
-		game.addVisual(new Bomba().PoneBomba(posicion, self))
+		game.addVisual(new Bomba().PoneBomba(posicion, self, radioAumentado))
 	}else{}
 	}
 	
 	method irA(nuevaPosicion) {
-		if(self.estaVivo()and puedevolveramoverse){
+		if(self.estaVivo()){
 			posicionPrevia = position
 			position = nuevaPosicion	
 		}
-		puedevolveramoverse = false
-		game.schedule(50, {puedevolveramoverse=true})
 
 	}
 	
@@ -60,14 +55,45 @@ class Jugador {
 	}
 	
 	method agarrarMejora(mejora){
-		mejoras.add(mejora)
+		if(self.validarMejora(mejora)){
+			mejoras.add(mejora)
+			game.removeVisual(mejora)	
+		} else{
+			game.say(self,'Ya tengo la mejora')
+		}
 	}
 	
+	method validarMejora(mejora){
+		if(mejoras.size() != 0 ){
+			const boolArray = mejoras.map({
+				m => self.comparaString(m.contiene(),mejora.contiene())
+			})
+			return !boolArray.contains(true)
+		} else {
+			return true
+		}
+	}
+	
+	method comparaString(s1,s2){
+		return s1 == s2
+	}
+	
+	method activarMejora(){
+		if (mejoras.size() != 0){
+			const mejoraParaActivar = mejoras.first()
+			mejoras.remove(mejoraParaActivar)
+			mejoraParaActivar.activar(self)
+			game.say(self, mejoraParaActivar.mensajeActivacion())
+		} else {
+			game.say(self, 'No Tengo Mejoras :(')
+		}
+	}
 
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = false
 	method esMejora() = false
+	method esJugador() = true
 
 }
 
@@ -78,62 +104,45 @@ class Enemigos {
 	var property image = "BOMBITARODRIGUEZ.png"
 	var property cantBombas = 0
 	var property reload = true
-	var property verohor = 1
-	var property estaVivo = true
 	
 	
 	method soltarBomba(posicion){
-	if(self.cantBombas()<3 and reload){
+	if(self.cantBombas()<3){
 		reload = false 
 		self.cantBombas(self.cantBombas()+1)
-		game.addVisual(new Bomba().PoneBomba(posicion, self))
+		game.addVisual(new Bomba().PoneBomba(posicion, self, false))
 		game.schedule(3000, {reload = true})
-		
 	}else{}
 	}
 	
 	
-	method PersigueVertical(posicion, posicionX, posicionY){
-		if (estaVivo){
-		if (self.position().distance(posicion)<3){self.soltarBomba(self.position())}
+	method Persigue(posicion, posicionX, posicionY){
+		if (self.position().distance(posicion)<3 and reload){self.soltarBomba(self.position())}
 		else {
-		if (posicionY.roundUp() > self.position().y().roundUp() and verohor == 1){self.Ir(2)}
-		else if (posicionY.roundUp() < self.position().y().roundUp() and verohor == 1){self.Ir(3)}
-		else if (posicionX.roundUp() > self.position().x().roundUp() and verohor == 2){self.Ir(1)}
-		else if(posicionX.roundUp() < self.position().x().roundUp() and verohor == 2){self.Ir(4)}else{}
+		if (posicionY.roundUp() > self.position().y().roundUp()){self.Ir(2)}
+		else if (posicionY.roundUp() < self.position().y().roundUp()){self.Ir(3)}
+		else if (posicionX.roundUp() > self.position().x().roundUp()){self.Ir(1)}
+		else if(posicionX.roundUp() < self.position().x().roundUp()){self.Ir(4)}else{}
 		}
-		}else{}
         }
-        
- 
 
 	method Ir(va){
-		
-		posicionPrevia = position
-		
 		if(va==1){
-			verohor = 1
-			
+			posicionPrevia = position
 			position=self.position().right(1)
 		}
 		else if(va==2){
-			verohor = 2
-			
+			posicionPrevia = position
 			position=self.position().up(1)
 		}
 		else if (va==3){
-			verohor = 2
-			
+			posicionPrevia = position
 			position=self.position().down(1)
 		}
 		else if (va==4){
-			verohor = 1
-			
+			posicionPrevia = position
 			position=self.position().left(1)
 		}
-		
-
-		
 
 		
 }
@@ -141,14 +150,14 @@ class Enemigos {
 	method escapaBombaDer(){
 			posicionPrevia = position
 			position=self.position().right(1)
-			
+		
 		
 	}
 	
 	method escapaBombaIzq(){
 		posicionPrevia = position
 		position=self.position().left(1)
-		
+		return !(posicionPrevia == position)
 		
 	}
 	method escapaBombaArriba(){
@@ -159,59 +168,46 @@ class Enemigos {
 	method escapaBombaAbajo(){
 		posicionPrevia = position
 		position=self.position().down(1)
-		
+	
 	}
 
 	method volver(){
-	
-		
-		
 		position = posicionPrevia
 	}
-	
-
-	
 	method esMejora() = false
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = false
+	method esJugador() = true
 //tiene que chequear que este mas a la izquierda, derecha arriba o abajo
 
 
 	method seQuemo(){
 			 self.image ("BOMBITARODRIGUEZBN.png")
-			 estaVivo = false
-			 game.schedule(1000, {game.removeVisual(self)})
+			 game.removeTickEvent("Colisionadores")
+			 game.removeTickEvent("Persigue")
+			 game.removeVisual(self)
+			 //game.schedule(1000, {game.removeVisual(self)})
+			 //game.schedule(3000, {
+			 //	self.position(position)
+			 //	self.image ("BOMBITARODRIGUEZ.png")
+			 //	game.addVisual(self)
+			 //})
 	}
 	
 	method creacolisionadores(){
-		game.onTick(1500,"Colisionadores", {
-			game.addVisual(new Colimedio().poneColisionador(self.position(), self))
+		game.onTick(1000,"Colisionadores", {
 			game.addVisual(new ColiArriba().poneColisionador(self.position().up(1), self))
 			game.addVisual(new ColiAbajo().poneColisionador(self.position().down(1), self))
 			game.addVisual(new ColiDer().poneColisionador(self.position().right(1), self))
 			game.addVisual(new ColiIzq().poneColisionador(self.position().left(1), self))})
 		}
-		
-//	method seDestraba (){
-//		game.onTick(500, "nosequedo", {sequedo = position})
-//		game.onTick(7000,"destraba", {self.mueveAzar()})
-//	} 
-//	
-//	method mueveAzar(){
-//		if (sequedo == position){
-//			self.Ir(1.randomUpTo(4))
-//		}else{}
-//	}
 
 }
 
 
-object muestra inherits Jugador(position = game.at (11, 4), image = "Fuego.png"){
-	
-}
-
-object imagenElegida{
-	var property imagenelegida = "BOMBITARODRIGUEZ.png"
-	
+object muestra inherits Jugador(position = game.at (11, 4)){
+	 method imagen (nuevo){
+		self.image(nuevo)
+	}
 }
