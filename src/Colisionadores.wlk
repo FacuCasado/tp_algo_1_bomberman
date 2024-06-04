@@ -12,7 +12,7 @@ class Colisionadores{
 	
 	method poneColisionador(posicion, enemigo){
 		self.position(posicion)
-		game.schedule(1000, {self.configurarColisiones(enemigo)})
+		game.schedule(500, {self.configurarColisiones(enemigo)})
 		return self}
 		
 	method configurarColisiones(enemigo) {
@@ -34,8 +34,6 @@ class Colisionadores{
 		}else if (objeto.esBomba()){
 			self.huye(objeto, enemigo)
 			}else{}
-		
-		
 		 //metodo para que el jugador y el enemigo colisionen
 	}
 	
@@ -53,28 +51,32 @@ class Colisionadores{
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = false
+	method esJugador() = false
 		
 }
+
 
 
 class ColiArriba inherits Colisionadores{
 	override method huye (objeto, enemigo){
 		game.removeTickEvent("Persigue")
-	
 			enemigo.escapaBombaIzq()
 			enemigo.escapaBombaDer()
 			enemigo.escapaBombaAbajo()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+			game.schedule(1000, {config.configurarSeguimiento(enemigo)})
 }
 }
 
 class ColiAbajo inherits Colisionadores{
 		override method huye (objeto, enemigo){
 			game.removeTickEvent("Persigue")
-			enemigo.escapaBombaIzq()
-			enemigo.escapaBombaDer()
+			if (enemigo.escapaBombaIzq()){}
+			else {
+			enemigo.escapaBombaDer()}
 			enemigo.escapaBombaArriba()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+
+			
+			game.schedule(1000, {config.configurarSeguimiento(enemigo)})
 	}
 }
 
@@ -84,7 +86,8 @@ class ColiDer inherits Colisionadores{
 			enemigo.escapaBombaIzq()
 			enemigo.escapaBombaArriba()
 			enemigo.escapaBombaAbajo()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+			
+			game.schedule(1000, {config.configurarSeguimiento(enemigo)})
 }
 }
 
@@ -95,6 +98,6 @@ class ColiIzq inherits Colisionadores{
 			enemigo.escapaBombaDer()
 			enemigo.escapaBombaArriba()
 			enemigo.escapaBombaAbajo()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+			game.schedule(1000, {config.configurarSeguimiento(enemigo)})
 	}
 }
