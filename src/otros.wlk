@@ -56,7 +56,7 @@ method image() = "Fuego.png"
 
 	method poneFuego(posicion){
 		self.position(posicion)
-		game.schedule(1000, {self.Destruye()})
+		game.schedule(500, {self.Destruye()})
 		return self
 	}
 	

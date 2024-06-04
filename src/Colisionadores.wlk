@@ -61,40 +61,94 @@ class ColiArriba inherits Colisionadores{
 	override method huye (objeto, enemigo){
 		game.removeTickEvent("Persigue")
 	
-			enemigo.escapaBombaIzq()
-			enemigo.escapaBombaDer()
 			enemigo.escapaBombaAbajo()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+			enemigo.escapaBombaDer()
+			if (enemigo.position().x().roundUp()>enemigo.posicionPrevia().x().roundUp()){}else{
+			enemigo.escapaBombaIzq()}
+			
+			game.schedule(1000, {config.configurarSeguimiento(enemigo1)})
 }
 }
 
 class ColiAbajo inherits Colisionadores{
 		override method huye (objeto, enemigo){
 			game.removeTickEvent("Persigue")
-			enemigo.escapaBombaIzq()
-			enemigo.escapaBombaDer()
+			
 			enemigo.escapaBombaArriba()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+			enemigo.escapaBombaDer()
+			if (enemigo.position().x().roundUp()>enemigo.posicionPrevia().x().roundUp()){}else{
+			enemigo.escapaBombaIzq()}
+			
+			game.schedule(1000, {config.configurarSeguimiento(enemigo1)})
+	}
+	
+		override method colisiono(objeto, enemigo){	
+		
+		
+		if(objeto.esCaja()){
+			enemigo.soltarBomba(enemigo.position())
+			if (enemigo.position() == game.at(23,9) ){
+			enemigo.escapaBombaIzq()}else{}
+			
+		}else if (objeto.esBomba()){
+			self.huye(objeto, enemigo)
+			}else{}
+		
+		
+		 //metodo para que el jugador y el enemigo colisionen
 	}
 }
 
 class ColiDer inherits Colisionadores{
 	override method huye (objeto, enemigo){
-		game.removeTickEvent("Persigue")
-			enemigo.escapaBombaIzq()
+			game.removeTickEvent("Persigue")
+			
 			enemigo.escapaBombaArriba()
-			enemigo.escapaBombaAbajo()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+			enemigo.escapaBombaDer()
+			if (enemigo.position().y().roundUp()>enemigo.posicionPrevia().y().roundUp()){}else{
+			enemigo.escapaBombaAbajo()}
+			
+			game.schedule(1000, {config.configurarSeguimiento(enemigo1)})
 }
 }
 
 
 class ColiIzq inherits Colisionadores{
 		override method huye (objeto, enemigo){
-		game.removeTickEvent("Persigue")
-			enemigo.escapaBombaDer()
+			game.removeTickEvent("Persigue")
+			
 			enemigo.escapaBombaArriba()
-			enemigo.escapaBombaAbajo()
-			game.schedule(3000, {config.configurarSeguimiento(enemigo1)})
+			enemigo.escapaBombaDer()
+			if (enemigo.position().y().roundUp()>enemigo.posicionPrevia().y().roundUp()){}else{
+			enemigo.escapaBombaAbajo()}
+			
+			game.schedule(1000, {config.configurarSeguimiento(enemigo1)})
+	}
+	
+	override method colisiono(objeto, enemigo){	
+		
+		
+		if(objeto.esCaja()){
+			enemigo.soltarBomba(enemigo.position())
+			if (enemigo.position() == game.at(23,9) ){
+			enemigo.escapaBombaAbajo()}else{}
+			
+		}else if (objeto.esBomba()){
+			self.huye(objeto, enemigo)
+			}else{}
+		
+		
+		 //metodo para que el jugador y el enemigo colisionen
+	}
+}
+
+
+
+class Colimedio inherits Colisionadores{
+		override method huye (objeto, enemigo){
+			game.removeTickEvent("Persigue")
+			enemigo.volver()
+			game.schedule(1000, {config.configurarSeguimiento(enemigo1)})
+			
 	}
 }

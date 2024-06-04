@@ -14,11 +14,12 @@ object iniciarJugador1 {
 	game.addVisual(jugador1)
 	game.addVisual(enemigo1)
 	config.configurarTeclas()
-	config.configurarSeguimiento(enemigo1)
+	game.schedule(2000,{config.configurarSeguimiento(enemigo1)})
 	config.configurarColisiones(jugador1)
 	config.configurarColisiones(enemigo1)
 	config.tomarMejora(jugador1)
 	enemigo1.creacolisionadores()
+//	enemigo1.seDestraba()
 
 }
 }
@@ -170,6 +171,7 @@ object config {
 	var property estaReiniciado = false
 	
 	method gameOver(){
+		estaReiniciado = false
 		game.say(jugador1, "Presiona R para reiniciar")
 		keyboard.r().onPressDo({self.reiniciarJuego()})	//Intente armar metodo para reiniciar el juego pero no se puede mover el jugador
 	}
@@ -181,13 +183,19 @@ object config {
 		iniciarParedes.iniciar()
 		iniciarCajas.iniciar()
 		jugador1.estaVivo(true)
+		jugador1.puedevolveramoverse(true)
 		jugador1.position(game.at(1, 1))
+		jugador1.posicionPrevia(jugador1.position())
 		enemigo1.position(game.at(23,9))
+		enemigo1.posicionPrevia(enemigo1.position())
+		enemigo1.image("BOMBITARODRIGUEZ.png")
+		enemigo1.cantBombas(0)
+		enemigo1.reload(true)
 		
 		estaReiniciado = true
-		self.configurarTeclas()
-		//JUEGO
-		game.start()
+		
+		
+		
 		
 		}
 	}
@@ -225,6 +233,7 @@ object config {
 		keyboard.up().onPressDo({  if (pantallaInicio.chequea()){pantallaInicio.cambio()}else{self.verificarPosicionY(jugador1.position().up(1)) }})
 		keyboard.k().onPressDo({  if (pantallaInicio.chequea()){}else{jugador1.soltarBomba(jugador1.position())}})
 		keyboard.enter().onPressDo({if (pantallaInicio.chequea()){pantallaInicio.eligio()}})
+		keyboard.g().onPressDo({if (pantallaInicio.chequea()){pantallaInicio.elegido(2)}})
 	}
 	
 	method verificarPosicionX(as){
@@ -243,7 +252,8 @@ object config {
 	
 
 	method configurarSeguimiento(enemigo){
-		game.onTick(3000,"Persigue", {enemigo.Persigue(jugador1.position() ,jugador1.position().x(), jugador1.position().y())})
+		game.onTick(3000,"Persigue", {enemigo.PersigueVertical(jugador1.position(),jugador1.position().y(), jugador1.position().y())})
+	
 	}
 
 }
