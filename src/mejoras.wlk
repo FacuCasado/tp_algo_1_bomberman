@@ -1,5 +1,6 @@
 import wollok.game.*
 import bombita.*
+import config.*
 
 class Mejoras{
 	const property image
@@ -60,11 +61,11 @@ class FumaPorro inherits Mejoras{
 	
 	override method activar(personaje){
 		self.programarDesactivar(personaje)
-		personaje.velocidad(nuevaVelocidad)
+		config.reconfigurarTeclas()
 	}
 	
 	override method desactivar(personaje){
-		personaje.velocidad(velDefault)
+		config.volverTeclas()
 	}
 	
 	method contiene (){

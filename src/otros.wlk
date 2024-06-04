@@ -52,13 +52,17 @@ method image() = "Fuego.png"
 			collidObj.forEach({e=>e.seQuemo()})
 		}
 		
-		game.removeVisual(self)	
+		game.schedule(1000, {self.eliminaVisual()})	
 	}
 
 	method poneFuego(posicion){
 		self.position(posicion)
-		game.schedule(1000, {self.Destruye()})
+		game.schedule(1, {self.Destruye()})
 		return self
+	}
+	
+	method eliminaVisual(){
+		game.removeVisual(self)
 	}
 	
 	method seQuemo(){}
