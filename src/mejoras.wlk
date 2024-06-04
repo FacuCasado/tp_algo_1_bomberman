@@ -44,6 +44,10 @@ class TomaMate inherits Mejoras{
 	override method desactivar(personaje){
 		personaje.escudo(false)
 	}
+	
+	method contiene(){
+		return 'tieneMate'
+	}
 }
 
 class FumaPorro inherits Mejoras{
@@ -62,6 +66,10 @@ class FumaPorro inherits Mejoras{
 	override method desactivar(personaje){
 		personaje.velocidad(velDefault)
 	}
+	
+	method contiene (){
+		return 'tienePorro'
+	}
 }
 
 class ComeAsado inherits Mejoras{
@@ -78,5 +86,9 @@ class ComeAsado inherits Mejoras{
 	
 	override method desactivar(personaje){
 		personaje.radioAumentado(false)
+	}
+	
+	method contiene (){
+		return 'tieneAsado'
 	}
 }

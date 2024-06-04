@@ -218,8 +218,8 @@ object iniciarCajas{
 object config {
 	
 	
-	method gameOver(){
-		game.say(jugador1, "Presiona R para reiniciar")
+	method gameOver(jugador){
+		game.say(jugador, "Presiona R para reiniciar")
 		keyboard.r().onPressDo({self.reiniciarJuego()})	//Intente armar metodo para reiniciar el juego pero no se puede mover el jugador
 	}
 	

@@ -34,8 +34,6 @@ class Colisionadores{
 		}else if (objeto.esBomba()){
 			self.huye(objeto, enemigo)
 			}else{}
-		
-		
 		 //metodo para que el jugador y el enemigo colisionen
 	}
 	
@@ -53,6 +51,7 @@ class Colisionadores{
 	method esPared() = false
 	method esCaja() = false
 	method esBomba() = false
+	method esJugador() = false
 		
 }
 

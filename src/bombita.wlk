@@ -5,9 +5,6 @@ import bombas.*
 import mejoras.*
 import Colisionadores.*
 
-
-
-
 class Jugador {
 	
 	var property radioAumentado = false
@@ -28,13 +25,11 @@ class Jugador {
 	}}
 	
 	method seQuemo(){
-		if(escudo){
-			escudo = false
-		}else{
-		estaVivo = false
-		game.removeTickEvent("Colisionadores")
-		game.removeTickEvent("Persigue")
-		config.gameOver()
+		if(!escudo){
+			estaVivo = false
+			//game.removeTickEvent("Colisionadores")
+			//game.removeTickEvent("Persigue")
+			config.gameOver(self)
 		}
 	}
 	
@@ -58,10 +53,28 @@ class Jugador {
 	}
 	
 	method agarrarMejora(mejora){
-		if(not mejoras.contains(mejora)){
-			mejoras.add(mejora)		
+		if(self.validarMejora(mejora)){
+			mejoras.add(mejora)
+			mejoras.withoutDuplicates()
 			game.removeVisual(mejora)	
+		} else{
+			game.say(self,'Ya tengo la mejora')
 		}
+	}
+	
+	method validarMejora(mejora){
+		if(mejoras.size() != 0 ){
+			const boolArray = mejoras.map({
+				m => self.comparaString(m.contiene(),mejora.contiene())
+			})
+			return !boolArray.contains(true)
+		} else {
+			return true
+		}
+	}
+	
+	method comparaString(s1,s2){
+		return s1 == s2
 	}
 	
 	method activarMejora(){
@@ -172,12 +185,13 @@ class Enemigos {
 			 self.image ("BOMBITARODRIGUEZBN.png")
 			 game.removeTickEvent("Colisionadores")
 			 game.removeTickEvent("Persigue")
-			 game.schedule(3000, {
-			 	self.position(position)
-			 	self.image ("BOMBITARODRIGUEZ.png")
-			 	game.addVisual(self)
-			 })
-			 game.schedule(1000, {game.removeVisual(self)})
+			 game.removeVisual(self)
+			 //game.schedule(1000, {game.removeVisual(self)})
+			 //game.schedule(3000, {
+			 //	self.position(position)
+			 //	self.image ("BOMBITARODRIGUEZ.png")
+			 //	game.addVisual(self)
+			 //})
 	}
 	
 	method creacolisionadores(){
