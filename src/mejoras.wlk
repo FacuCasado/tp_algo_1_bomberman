@@ -52,26 +52,38 @@ class TomaMate inherits Mejoras{
 }
 
 class FumaPorro inherits Mejoras{
-	var property nuevaVelocidad = 2
-	var property velDefault = 1
 	
 	override method mensajeActivacion(){
 		return 'Pego?'
 	}
 	
 	override method activar(personaje){
-		self.programarDesactivar(personaje)
-		config.reconfigurarTeclas()
+			if(personaje == jugador1){
+				self.programarDesactivar(personaje)
+				personaje.loco(true)
+				config.configurarTeclas()
+			}else{
+				self.programarDesactivar(personaje)
+				personaje.loco(true)
+				config.configurarTeclas2()
+			}
 	}
 	
 	override method desactivar(personaje){
-		config.volverTeclas()
-	}
+			if(personaje == jugador1){
+				personaje.loco(false)
+				config.configurarTeclas()
+			} else {
+				personaje.loco(false)
+				config.configurarTeclas2()
+			}
+		}
 	
 	method contiene (){
 		return 'tienePorro'
 	}
 }
+
 
 class ComeAsado inherits Mejoras{
 	

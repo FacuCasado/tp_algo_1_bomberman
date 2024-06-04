@@ -6,7 +6,7 @@ import otros.*
 import bombas.*
 
 describe "Mejoras"{
-	const jugador = new Jugador(position = game.at(1,1))
+	const jugador = new Jugador(position = game.at(1,1), image = "BOMBITARODRIGUEZ.png")
 	
 	method initialize(){
 		jugador.mejoras().clear()
@@ -58,7 +58,7 @@ describe "Mejoras"{
 }
 
 describe "Fuego"{
-	const jugador = new Jugador(position = game.at(1,1))
+	const jugador = new Jugador(position = game.at(1,1), image = "BOMBITARODRIGUEZ.png")
 	const fuego = new Fuego()
 	const escudo = new TomaMate(position = game.at(1,5), image = "bombita.png")
 	
@@ -85,6 +85,7 @@ describe "Fuego"{
 		assert.that(jugador.estaVivo())
 		jugador.seQuemo()
 		assert.that(jugador.estaVivo())
+		jugador.escudo(false)
 		jugador.seQuemo()
 		assert.notThat(jugador.estaVivo())
 		

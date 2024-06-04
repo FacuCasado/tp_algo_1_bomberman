@@ -3,37 +3,24 @@ import bombita.*
 import mejoras.*
 import otros.*
 import wollok.game.*
-import Colisionadores.*
-import pantallainicio.*
 
-const jugador1 = new Jugador(position = game.at(1,1))
-const enemigo1 = new Enemigos(position = game.at(23,9))
-const enemigo2 = new Enemigos(position = game.at(1,9))
-const enemigo3 = new Enemigos(position = game.at(23,1))
-object iniciarJugador1 {
+const jugador1 = new Jugador(position = game.at(1,1), image = "BOMBITARODRIGUEZ.png")
+const jugador2 = new Jugador(position = game.at(23,9), image = "peron64.png")
+
+object iniciarJugadores {
 	method iniciar(){
 	jugador1.estaVivo(true)
+	jugador2.estaVivo(true)
 	jugador1.position(game.at(1, 1))
+	jugador2.position(game.at(23,9))
 	config.configurarTeclas()
-	enemigo1.position(game.at(23,9))
-	enemigo2.position(game.at(1,9))
-	enemigo3.position(game.at(23,1))
+	config.configurarTeclas2()
 	game.addVisual(jugador1)
-	game.addVisual(enemigo1)
-	config.configurarTeclas()
-	game.addVisual(enemigo3)
-	game.addVisual(enemigo2)
-	config.configurarSeguimiento(enemigo1)
-	config.configurarSeguimiento(enemigo2)
-	config.configurarSeguimiento(enemigo3)
+	game.addVisual(jugador2)
 	config.configurarColisiones(jugador1)
-	config.configurarColisiones(enemigo1)
-	config.configurarColisiones(enemigo2)
-	config.configurarColisiones(enemigo3)
 	config.tomarMejora(jugador1)
-	enemigo1.creacolisionadores()
-	enemigo3.creacolisionadores()
-	enemigo2.creacolisionadores()
+	config.configurarColisiones(jugador2)
+	config.tomarMejora(jugador2)
 
 }
 }
@@ -185,43 +172,23 @@ object iniciarCajas{
 			
 			}
 			
-			
 			})
-		
-			
-			//(game.width()-2) and coordY == (game.height()-2)
-		
-		
+
 		}
 		
 	
-
-//	method generarCajas(){
-//		const nuevaPos = game.at(1.randomUpTo(23), fila)
-//
-//		if (nuevaPos == game.at(1, 1) or nuevaPos == game.at(23, 9)){
-//			return self.generarCajas(fila)
-//		}
-//		return nuevaPos
-//	}
-//	
 	method iniciar(){//elije al azar los lugares y los carga en pantalla
 		game.removeTickEvent("llenaarray")
-		66.times({i => game.addVisual(new Caja(position = coord.anyOne()))})}
-	//}
-	//} //genera las cajas medio random pero por fila
-	
-	
-	
-	
-	
+		66.times({i => game.addVisual(new Caja(position = coord.anyOne()))})
+	}
 }
+
 
 object config {
 	
 	
 	method gameOver(jugador){
-		game.say(jugador, "Presiona R para reiniciar")
+		game.say(jugador, "Perdí! :(, presiona R para reiniciar")
 		keyboard.r().onPressDo({self.reiniciarJuego()})	//Intente armar metodo para reiniciar el juego pero no se puede mover el jugador
 	}
 	
@@ -230,7 +197,8 @@ object config {
 		iniciarCajas.llenoVector()
 		iniciarParedes.iniciar()
 		jugador1.mejoras().clear()
-		game.schedule(2500, {iniciarJugador1.iniciar()})
+		jugador2.mejoras().clear()
+		game.schedule(2500, {iniciarJugadores.iniciar()})
 	}
 
 	method tomarMejora(jugador) {
@@ -250,44 +218,41 @@ object config {
 	}
 
 	
-	method borraTeclas(){
-		keyboard.left().onPressDo({})
-		keyboard.right().onPressDo({ })
-		keyboard.down().onPressDo({})
-		keyboard.up().onPressDo({})
-		keyboard.k().onPressDo({})
-		keyboard.enter().onPressDo({})
-	}
-	
 	method configurarTeclas() {
-		keyboard.left().onPressDo({ if (pantallaInicio.chequea()){botonpersonaje.selPersonaje()}else{self.verificarPosicionX(jugador1.position().left(1)) }})
-		keyboard.right().onPressDo({ if (pantallaInicio.chequea()){botonpersonaje.selPersonaje()}else{self.verificarPosicionX(jugador1.position().right(1)) }})
-		keyboard.down().onPressDo({ if (pantallaInicio.chequea()){pantallaInicio.cambio()}else{ self.verificarPosicionY(jugador1.position().down(1)) }})
-		keyboard.up().onPressDo({  if (pantallaInicio.chequea()){pantallaInicio.cambio()}else{self.verificarPosicionY(jugador1.position().up(1)) }})
-		keyboard.k().onPressDo({  if (pantallaInicio.chequea()){}else{jugador1.soltarBomba(jugador1.position())}})
-		keyboard.enter().onPressDo({if (pantallaInicio.chequea()){pantallaInicio.eligio()}})
-
-		
-	
-	}
-	
-	method verificarPosicionX(as){
-		if (as.x().between(1,23)){
-			jugador1.irA(as)
+		if(!jugador1.loco()){
+			keyboard.left().onPressDo({ jugador1.irA(jugador1.position().left(1)) })
+			keyboard.right().onPressDo({ jugador1.irA(jugador1.position().right(1)) })
+			keyboard.down().onPressDo({ jugador1.irA(jugador1.position().down(1)) })
+			keyboard.up().onPressDo({ jugador1.irA(jugador1.position().up(1)) })
+			keyboard.k().onPressDo({ jugador1.soltarBomba(jugador1.position())})
+			keyboard.l().onPressDo({ jugador1.activarMejora()})
+		}else{
+			keyboard.left().onPressDo({ jugador1.irA(jugador1.position().right(1)) })
+			keyboard.right().onPressDo({ jugador1.irA(jugador1.position().left(1)) })
+			keyboard.down().onPressDo({ jugador1.irA(jugador1.position().up(1)) })
+			keyboard.up().onPressDo({ jugador1.irA(jugador1.position().down(1)) })
+			keyboard.k().onPressDo({ jugador1.soltarBomba(jugador1.position())})
+			keyboard.l().onPressDo({ jugador1.activarMejora()})
 		}
 	}
 	
-	method verificarPosicionY(as){
-		if (as.y().between(1,9)){
-			jugador1.irA(as)
-		}
 		
+	method configurarTeclas2() {
+		if(!jugador2.loco()){
+			keyboard.a().onPressDo({ jugador2.irA(jugador2.position().left(1)) })
+			keyboard.d().onPressDo({ jugador2.irA(jugador2.position().right(1)) })
+			keyboard.s().onPressDo({ jugador2.irA(jugador2.position().down(1)) })
+			keyboard.w().onPressDo({ jugador2.irA(jugador2.position().up(1)) })
+			keyboard.space().onPressDo({ jugador2.soltarBomba(jugador2.position())})
+			keyboard.f().onPressDo({ jugador2.activarMejora()})
+		}else{
+			keyboard.a().onPressDo({ jugador2.irA(jugador2.position().right(1)) })
+			keyboard.d().onPressDo({ jugador2.irA(jugador2.position().left(1)) })
+			keyboard.s().onPressDo({ jugador2.irA(jugador2.position().up(1)) })
+			keyboard.w().onPressDo({ jugador2.irA(jugador2.position().down(1)) })
+			keyboard.space().onPressDo({ jugador2.soltarBomba(jugador2.position())})
+			keyboard.f().onPressDo({ jugador2.activarMejora()})
+		}
 	}
 	
-	
-
-	method configurarSeguimiento(enemigo){
-		game.onTick(2300,"Persigue", {enemigo.Persigue(jugador1.position() ,jugador1.position().x(), jugador1.position().y())})
-	}
-
 }
